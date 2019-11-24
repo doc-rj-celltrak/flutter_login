@@ -34,7 +34,6 @@ class RecoverCodeCardState extends State<RecoverCodeCard>
   final _confirmPasswordFocusNode = FocusNode();
   final _passwordController = TextEditingController();
 
-  var _authData = {'email': '', 'password': ''};
   var _isSubmitting = false;
   var _code = '';
 
@@ -66,7 +65,7 @@ class RecoverCodeCardState extends State<RecoverCodeCard>
     _formRecoverKey.currentState.save();
     _submitController.forward();
     setState(() => _isSubmitting = true);
-    final error = await auth.onConfirmRecover(_code, _authData['password']);
+    final error = await auth.onConfirmRecover(_code, auth.password);
 
     if (error != null) {
       showErrorToast(context, error);
@@ -101,7 +100,7 @@ class RecoverCodeCardState extends State<RecoverCodeCard>
     );
   }
 
-  Widget _buildPasswordField(double width, LoginMessages messages) {
+  Widget _buildPasswordField(double width, LoginMessages messages, Auth auth) {
     return AnimatedPasswordTextFormField(
       animatedWidth: width,
       labelText: messages.passwordHint,
@@ -112,7 +111,7 @@ class RecoverCodeCardState extends State<RecoverCodeCard>
         FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
       },
       validator: widget.passwordValidator,
-      onSaved: (value) => _authData['password'] = value,
+      onSaved: (value) => auth.password = value,
     );
   }
 
@@ -153,6 +152,7 @@ class RecoverCodeCardState extends State<RecoverCodeCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final auth = Provider.of<Auth>(context, listen: false);
     final messages = Provider.of<LoginMessages>(context, listen: false);
     final deviceSize = MediaQuery
         .of(context)
@@ -184,7 +184,7 @@ class RecoverCodeCardState extends State<RecoverCodeCard>
                 SizedBox(height: 20),
                 _buildVerificationCodeField(textFieldWidth, messages),
                 SizedBox(height: 20),
-                _buildPasswordField(textFieldWidth, messages),
+                _buildPasswordField(textFieldWidth, messages, auth),
                 SizedBox(height: 20),
                 _buildConfirmPasswordField(textFieldWidth, messages),
                 SizedBox(height: 26),
