@@ -30,7 +30,7 @@ class LoginMessages with ChangeNotifier {
   static const defaultRecoverPasswordButton = 'RECOVER';
   static const defaultRecoverPasswordIntro = 'Don\'t worry, happens to the best of us.';
   static const defaultRecoverPasswordDescription =
-      'We will send your password recovery code to this email account.';
+      'We will send a password recovery code to your email.';
   static const defaultGoBackButton = 'BACK';
   static const defaultConfirmPasswordError = 'Passwords do not match!';
   static const defaultRecoverPasswordSuccess = 'An email has been sent.';

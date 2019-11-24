@@ -282,7 +282,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
       case 1:
         return _RecoverCard(
             emailValidator: widget.emailValidator,
-            onSwitchLogin: () => _switchRecovery(1, false),  // todo: onBack
+            onBack: () => _switchRecovery(1, false),
             onSwitchRecoverCode: () => _switchRecovery(1, true),
         );
 
@@ -706,12 +706,12 @@ class _RecoverCard extends StatefulWidget {
   _RecoverCard({
     Key key,
     @required this.emailValidator,
-    @required this.onSwitchLogin,
+    @required this.onBack,
     @required this.onSwitchRecoverCode,
   }) : super(key: key);
 
   final FormFieldValidator<String> emailValidator;
-  final Function onSwitchLogin;
+  final Function onBack;
   final Function onSwitchRecoverCode;
 
   @override
@@ -800,7 +800,7 @@ class _RecoverCardState extends State<_RecoverCard>
       child: Text(messages.goBackButton),
       onPressed: !_isSubmitting ? () {
         _formRecoverKey.currentState.save();
-        widget.onSwitchLogin();
+        widget.onBack();
       } : null,
       padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
