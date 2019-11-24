@@ -14,6 +14,11 @@ class LoginMessages with ChangeNotifier {
     this.goBackButton: defaultGoBackButton,
     this.confirmPasswordError: defaultConfirmPasswordError,
     this.recoverPasswordSuccess: defaultRecoverPasswordSuccess,
+    this.confirmRecoverIntro: defaultConfirmRecoverIntro,
+    this.recoveryCodeHint: defaultRecoveryCodeHint,
+    this.recoveryCodeValidationError: defaultRecoveryCodeValidationError,
+    this.setPasswordButton: defaultSetPasswordButton,
+    this.confirmRecoverSuccess: defaultConfirmRecoverSuccess,
   });
 
   static const defaultUsernameHint = 'Email';
@@ -25,10 +30,17 @@ class LoginMessages with ChangeNotifier {
   static const defaultRecoverPasswordButton = 'RECOVER';
   static const defaultRecoverPasswordIntro = 'Don\'t worry, happens to the best of us.';
   static const defaultRecoverPasswordDescription =
-      'We will send your plain-text password to this email account.';
+      'We will send your password recovery code to this email account.';
   static const defaultGoBackButton = 'BACK';
-  static const defaultConfirmPasswordError = 'Password do not match!';
-  static const defaultRecoverPasswordSuccess = 'An email has been sent';
+  static const defaultConfirmPasswordError = 'Passwords do not match!';
+  static const defaultRecoverPasswordSuccess = 'An email has been sent.';
+  static const defaultConfirmRecoverIntro =
+      'The recovery code to set a new password was sent to your email.';
+  static const defaultRecoveryCodeHint = 'Recovery Code';
+  static const defaultRecoveryCodeValidationError =
+      'Recovery code is empty';
+  static const defaultSetPasswordButton = 'SET PASSWORD';
+  static const defaultConfirmRecoverSuccess = 'Password recovered.';
 
   /// Hint text of the user name [TextField]
   final String usernameHint;
@@ -67,4 +79,19 @@ class LoginMessages with ChangeNotifier {
 
   /// The success message to show after submitting recover password
   final String recoverPasswordSuccess;
+
+  /// The intro text for the confirm recover password card
+  final String confirmRecoverIntro;
+
+  /// Hint text of the password recovery code [TextField]
+  final String recoveryCodeHint;
+
+  /// The validation error message  to show for an empty recovery code
+  final String recoveryCodeValidationError;
+
+  /// Set password button's label for password recovery confirmation
+  final String setPasswordButton;
+
+  /// The success message to show after confirming recovered password
+  final String confirmRecoverSuccess;
 }
