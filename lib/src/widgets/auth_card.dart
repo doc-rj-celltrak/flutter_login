@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'animated_button.dart';
 import 'animated_text.dart';
@@ -12,6 +11,7 @@ import 'custom_page_transformer.dart';
 import 'expandable_container.dart';
 import 'fade_in.dart';
 import 'animated_text_form_field.dart';
+import 'confirm_signup_card.dart';
 import '../providers/auth.dart';
 import '../providers/login_messages.dart';
 import '../models/login_data.dart';
@@ -334,6 +334,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
     return <Widget>[
       _buildCard(theme, 0),
       _buildCard(theme, 1),
+      _buildCard(theme, 2),
     ];
   }
 
@@ -350,6 +351,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
             emailValidator: widget.emailValidator,
             passwordValidator: widget.passwordValidator,
             onSwitchRecoveryPassword: () => _switchRecovery(true),
+            onSwitchConfirmSignup: () => _jumpToCard(theme, 2),
             onSubmitCompleted: () {
               _forwardChangeRouteAnimation().then((_) {
                 widget.onSubmitCompleted();
@@ -362,6 +364,12 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
         return _RecoverCard(
           emailValidator: widget.emailValidator,
           onSwitchLogin: () => _switchRecovery(false),
+        );
+
+      case 2:
+        return ConfirmSignupCard(
+          onBack: () => _jumpToCard(theme, 0),  // todo: back handling
+          onSubmitCompleted: widget.onSubmitCompleted,
         );
     }
   }
@@ -414,6 +422,7 @@ class _LoginCard extends StatefulWidget {
     @required this.emailValidator,
     @required this.passwordValidator,
     @required this.onSwitchRecoveryPassword,
+    @required this.onSwitchConfirmSignup,
     this.onSwitchAuth,
     this.onSubmitCompleted,
   }) : super(key: key);
@@ -422,6 +431,7 @@ class _LoginCard extends StatefulWidget {
   final FormFieldValidator<String> emailValidator;
   final FormFieldValidator<String> passwordValidator;
   final Function onSwitchRecoveryPassword;
+  final Function onSwitchConfirmSignup;
   final Function onSwitchAuth;
   final Function onSubmitCompleted;
 
@@ -502,8 +512,6 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    super.dispose();
-
     _loadingController?.removeStatusListener(handleLoadingAnimationStatus);
     _passwordFocusNode.dispose();
     _confirmPasswordFocusNode.dispose();
@@ -511,6 +519,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     _switchAuthController.dispose();
     _postSwitchAuthController.dispose();
     _submitController.dispose();
+    super.dispose();
   }
 
   void _switchAuthMode() {
@@ -569,8 +578,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       return false;
     }
 
-    widget?.onSubmitCompleted();
-
+    widget.onSwitchConfirmSignup();
     return true;
   }
 
