@@ -19,6 +19,14 @@ class LoginMessages with ChangeNotifier {
     this.recoveryCodeValidationError: defaultRecoveryCodeValidationError,
     this.setPasswordButton: defaultSetPasswordButton,
     this.confirmRecoverSuccess: defaultConfirmRecoverSuccess,
+    this.confirmSignupIntro: defaultConfirmSignupIntro,
+    this.confirmationCodeHint: defaultConfirmationCodeHint,
+    this.confirmationCodeValidationError:
+    defaultConfirmationCodeValidationError,
+    this.resendCodeButton: defaultResendCodeButton,
+    this.resendCodeSuccess: defaultResendCodeSuccess,
+    this.confirmSignupButton: defaultConfirmSignupButton,
+    this.confirmSignupSuccess: defaultConfirmSignupSuccess,
   });
 
   static const defaultUsernameHint = 'Email';
@@ -41,6 +49,16 @@ class LoginMessages with ChangeNotifier {
       'Recovery code is empty';
   static const defaultSetPasswordButton = 'SET PASSWORD';
   static const defaultConfirmRecoverSuccess = 'Password recovered.';
+  static const defaultConfirmSignupIntro =
+      'A confirmation code was sent to your email. ' +
+          'Please enter the code to confirm your account.';
+  static const defaultConfirmationCodeHint = 'Confirmation Code';
+  static const defaultConfirmationCodeValidationError =
+      'Confirmation code is empty';
+  static const defaultResendCodeButton = 'Resend Code';
+  static const defaultResendCodeSuccess = 'A new email has been sent.';
+  static const defaultConfirmSignupButton = 'CONFIRM';
+  static const defaultConfirmSignupSuccess = 'Account confirmed.';
 
   /// Hint text of the user name [TextField]
   final String usernameHint;
@@ -94,4 +112,25 @@ class LoginMessages with ChangeNotifier {
 
   /// The success message to show after confirming recovered password
   final String confirmRecoverSuccess;
+
+  /// The intro text for the confirm signup card
+  final String confirmSignupIntro;
+
+  /// Hint text of the confirmation code for confirming signup
+  final String confirmationCodeHint;
+
+  /// The validation error message to show for an empty confirmation code
+  final String confirmationCodeValidationError;
+
+  /// Resend code button's label
+  final String resendCodeButton;
+
+  /// The success message to show after resending confirmation code
+  final String resendCodeSuccess;
+
+  /// Confirm signup button's label
+  final String confirmSignupButton;
+
+  /// The success message to show after confirming signup
+  final String confirmSignupSuccess;
 }

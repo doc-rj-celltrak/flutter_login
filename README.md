@@ -18,6 +18,8 @@ Follow the install instructions [here](https://pub.dev/packages/flutter_login#-i
 Property |   Type     | Desciption
 -------- |------------| ---------------
 onSignup |   `AuthCallback`     | <sub>Called when the user hit the submit button when in sign up mode</sub>
+onConfirmSignup | `ConfirmSignupCallback` | <sub>Called when the user hits the submit button when confirming signup</sub>
+onResendCode | `AuthCallback` | <sub>Called when the user hits the resend code button when confirming signup</sub>
 onLogin |   `AuthCallback`     | <sub>Called when the user hit the submit button when in login mode</sub>
 onRecoverPassword |   `RecoverCallback`     | <sub>Called when the user hit the submit button when in recover password mode</sub>
 onConfirmRecover | `ConfirmRecoverCallback` | <sub>Called when the user submits confirmation code and sets password in recover password mode</sub>
@@ -65,6 +67,13 @@ recoveryCodeHint | `String` | Hint text of the recovery code [TextField]
 recoveryCodeValidationError | `String` | The error message to show if recovery code is empty
 setPasswordButton | `String` | Set password button's label for password recovery
 confirmRecoverSuccess | `String` | The success message to show after confirming recovered password
+confirmSignupIntro | `String` | The intro text for the confirm signup card
+confirmationCodeHint | `String` | Hint text of the confirmation code [TextField]
+confirmationCodeValidationError | `String` | The error message to show if confirmation code is empty
+resendCodeButton | `String` | Resend code button's label
+resendCodeSuccess | `String` | The success message to show after resending a confirmation code
+confirmSignupButton | `String` | Confirm signup button's label
+confirmSignupSuccess | `String` | The success message to show after confirming signup
 
 ### LoginTheme
 

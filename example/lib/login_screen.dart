@@ -41,6 +41,25 @@ class LoginScreen extends StatelessWidget {
     });
   }
 
+  Future<String> _confirmSignup(String code, LoginData data) {
+    return Future.delayed(loginTime).then((_) {
+      if (false) {
+        return 'Wrong confirmation code. Try again.';
+      }
+      return null;
+    });
+  }
+
+  Future<String> _resendCode(LoginData data) {
+    return Future.delayed(loginTime).then((_) {
+      //if (!mockUsers.containsKey(data.name)) {
+      if (false) {
+        return 'Username not exists';
+      }
+      return null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final inputBorder = BorderRadius.vertical(
@@ -180,6 +199,16 @@ class LoginScreen extends StatelessWidget {
         print("Recover code info");
         print('Code: $code');
         return _confirmRecoverPassword(code, password);
+      },
+      onConfirmSignup: (code, loginData) {
+        print('Confirm signup info');
+        print('Code: $code'); //, Name: ${loginData.name}');
+        return _confirmSignup(code, loginData);
+      },
+      onResendCode: (loginData) {
+        //print('Resend code info');
+        //print('Name: ${loginData.name}');
+        return _resendCode(loginData);
       },
       showDebugButtons: true,
     );
