@@ -368,7 +368,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
 
       case 2:
         return ConfirmSignupCard(
-          onBack: () => _jumpToCard(theme, 0),  // todo: back handling
+          onBack: () => _jumpToCard(theme, 0),
           onSubmitCompleted: widget.onSubmitCompleted,
         );
     }

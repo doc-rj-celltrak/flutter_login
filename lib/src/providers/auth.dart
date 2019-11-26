@@ -11,7 +11,7 @@ typedef AuthCallback = Future<String> Function(LoginData);
 typedef RecoverCallback = Future<String> Function(String);
 
 /// The result is an error message, callback successes if message is null
-typedef ConfirmSignupCallback = Future<String> Function(String code);
+typedef ConfirmSignupCallback = Future<String> Function(String code, LoginData);
 
 class Auth with ChangeNotifier {
   Auth({

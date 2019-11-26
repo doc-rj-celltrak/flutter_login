@@ -61,7 +61,8 @@ class ConfirmSignupCardState extends State<ConfirmSignupCard>
     _formRecoverKey.currentState.save();
     _submitController.forward();
     setState(() => _isSubmitting = true);
-    final error = await auth.onConfirmSignup(_code);
+    // todo: integrate with shared auth loginData for 2nd param
+    final error = await auth.onConfirmSignup(_code, null);
 
     if (error != null) {
       showErrorToast(context, error);
@@ -85,6 +86,7 @@ class ConfirmSignupCardState extends State<ConfirmSignupCard>
 
     _submitController.forward();
     setState(() => _isSubmitting = true);
+    // todo: integrate with shared auth loginData to pass name/email
     final error = await auth.onResendCode(null);
 
     if (error != null) {

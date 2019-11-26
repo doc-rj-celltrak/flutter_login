@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
     });
   }
 
-  Future<String> _confirmSignup(String code) {
+  Future<String> _confirmSignup(String code, LoginData data) {
     return Future.delayed(loginTime).then((_) {
       if (false) {
         return 'Wrong confirmation code. Try again.';
@@ -185,10 +185,10 @@ class LoginScreen extends StatelessWidget {
         return _recoverPassword(name);
         // Show new password dialog
       },
-      onConfirmSignup: (code) {
+      onConfirmSignup: (code, loginData) {
         print('Confirm signup info');
-        print('Code: $code');
-        return _confirmSignup(code);
+        print('Code: $code'); //, Name: ${loginData.name}');
+        return _confirmSignup(code, loginData);
       },
       onResendCode: (loginData) {
         //print('Resend code info');
