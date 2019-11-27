@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'animated_button.dart';
 import 'animated_text_form_field.dart';
+import '../models/login_data.dart';
 import '../providers/auth.dart';
 import '../providers/login_messages.dart';
 import '../widget_helper.dart';
@@ -67,7 +68,10 @@ class ConfirmRecoverCardState extends State<ConfirmRecoverCard>
     _formRecoverKey.currentState.save();
     _submitController.forward();
     setState(() => _isSubmitting = true);
-    final error = await auth.onConfirmRecover(_code, auth.password);
+    final error = await auth.onConfirmRecover(_code, LoginData(
+        name: auth.email,
+        password: auth.password,
+    ));
 
     if (error != null) {
       showErrorToast(context, error);
@@ -102,7 +106,7 @@ class ConfirmRecoverCardState extends State<ConfirmRecoverCard>
     );
   }
 
-  Widget _buildPasswordField(double width, LoginMessages messages, Auth auth) {
+  Widget _buildPasswordField(double width, LoginMessages messages) {
     return AnimatedPasswordTextFormField(
       animatedWidth: width,
       labelText: messages.passwordHint,
@@ -113,7 +117,10 @@ class ConfirmRecoverCardState extends State<ConfirmRecoverCard>
         FocusScope.of(context).requestFocus(_confirmPasswordFocusNode);
       },
       validator: widget.passwordValidator,
-      onSaved: (value) => auth.password = value,
+      onSaved: (value) {
+        final auth = Provider.of<Auth>(context, listen: false);
+        auth.password = value;
+      },
     );
   }
 
@@ -186,7 +193,7 @@ class ConfirmRecoverCardState extends State<ConfirmRecoverCard>
                 SizedBox(height: 20),
                 _buildVerificationCodeField(textFieldWidth, messages),
                 SizedBox(height: 20),
-                _buildPasswordField(textFieldWidth, messages, auth),
+                _buildPasswordField(textFieldWidth, messages),
                 SizedBox(height: 20),
                 _buildConfirmPasswordField(textFieldWidth, messages),
                 SizedBox(height: 26),
