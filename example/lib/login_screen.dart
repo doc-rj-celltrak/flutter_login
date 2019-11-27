@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget {
 
   Future<String> _confirmSignup(String code, LoginData data) {
     return Future.delayed(loginTime).then((_) {
-      if (false) {
+      if (!mockUsers.containsKey(data.name)) {
         return 'Wrong confirmation code. Try again.';
       }
       return null;
@@ -202,12 +202,12 @@ class LoginScreen extends StatelessWidget {
       },
       onConfirmSignup: (code, loginData) {
         print('Confirm signup info');
-        print('Code: $code'); //, Name: ${loginData.name}');
+        print('Code: $code, Name: ${loginData.name}');
         return _confirmSignup(code, loginData);
       },
       onResendCode: (loginData) {
-        //print('Resend code info');
-        //print('Name: ${loginData.name}');
+        print('Resend code info');
+        print('Name: ${loginData.name}');
         return _resendCode(loginData);
       },
       showDebugButtons: true,

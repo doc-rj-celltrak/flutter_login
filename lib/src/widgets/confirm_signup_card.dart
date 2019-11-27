@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'animated_button.dart';
 import 'animated_text_form_field.dart';
+import '../models/login_data.dart';
 import '../providers/auth.dart';
 import '../providers/login_messages.dart';
 import '../widget_helper.dart';
@@ -61,8 +62,10 @@ class ConfirmSignupCardState extends State<ConfirmSignupCard>
     _formRecoverKey.currentState.save();
     _submitController.forward();
     setState(() => _isSubmitting = true);
-    // todo: integrate with shared auth loginData for 2nd param
-    final error = await auth.onConfirmSignup(_code, null);
+    final error = await auth.onConfirmSignup(_code, LoginData(
+      name: auth.email,
+      password: auth.password,
+    ));
 
     if (error != null) {
       showErrorToast(context, error);
@@ -86,8 +89,10 @@ class ConfirmSignupCardState extends State<ConfirmSignupCard>
 
     _submitController.forward();
     setState(() => _isSubmitting = true);
-    // todo: integrate with shared auth loginData to pass name/email
-    final error = await auth.onResendCode(null);
+    final error = await auth.onResendCode(LoginData(
+      name: auth.email,
+      password: auth.password,
+    ));
 
     if (error != null) {
       showErrorToast(context, error);
