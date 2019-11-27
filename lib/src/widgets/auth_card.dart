@@ -592,7 +592,11 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       return false;
     }
 
-    widget.onSwitchConfirmSignup();
+    if (auth.isLogin) {
+      widget?.onSubmitCompleted();
+    } else {
+      widget?.onSwitchConfirmSignup();
+    }
     return true;
   }
 
