@@ -121,7 +121,7 @@ class ChangePasswordCardState extends State<ChangePasswordCard>
   Widget _buildSetPasswordButton(ThemeData theme, LoginMessages messages) {
     return AnimatedButton(
       controller: _submitController,
-      text: messages.setPasswordButton,
+      text: messages.changePasswordButton,
       onPressed: !_isSubmitting ? _submit : null,
     );
   }

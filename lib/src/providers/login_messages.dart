@@ -30,6 +30,7 @@ class LoginMessages with ChangeNotifier {
     this.changePasswordIntro: defaultChangePasswordIntro,
     this.newPasswordHint: defaultNewPasswordHint,
     this.confirmNewPasswordHint: defaultConfirmNewPasswordHint,
+    this.changePasswordButton: defaultChangePasswordButton,
     this.changePasswordSuccess: defaultChangePasswordSuccess,
   });
 
@@ -67,6 +68,7 @@ class LoginMessages with ChangeNotifier {
       'Please change your password before continuing to the app.';
   static const defaultNewPasswordHint = 'New Password';
   static const defaultConfirmNewPasswordHint = 'Confirm New Password';
+  static const defaultChangePasswordButton = 'SET PASSWORD';
   static const defaultChangePasswordSuccess = 'Password changed.';
 
   /// Hint text of the user name [TextField]
@@ -151,6 +153,9 @@ class LoginMessages with ChangeNotifier {
 
   /// Hint text of confirm new password [TextField]
   final String confirmNewPasswordHint;
+
+  /// Change password button's label
+  final String changePasswordButton;
 
   /// The success message to show after changing password
   final String changePasswordSuccess;
