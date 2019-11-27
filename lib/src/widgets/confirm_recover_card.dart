@@ -109,7 +109,7 @@ class ConfirmRecoverCardState extends State<ConfirmRecoverCard>
   Widget _buildPasswordField(double width, LoginMessages messages) {
     return AnimatedPasswordTextFormField(
       animatedWidth: width,
-      labelText: messages.passwordHint,
+      labelText: messages.newPasswordHint,
       controller: _passwordController,
       textInputAction: TextInputAction.next,
       focusNode: _passwordFocusNode,
@@ -127,7 +127,7 @@ class ConfirmRecoverCardState extends State<ConfirmRecoverCard>
   Widget _buildConfirmPasswordField(double width, LoginMessages messages) {
     return AnimatedPasswordTextFormField(
       animatedWidth: width,
-      labelText: messages.confirmPasswordHint,
+      labelText: messages.confirmNewPasswordHint,
       textInputAction: TextInputAction.done,
       focusNode: _confirmPasswordFocusNode,
       onFieldSubmitted: (value) => _submit(),
@@ -161,7 +161,6 @@ class ConfirmRecoverCardState extends State<ConfirmRecoverCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final auth = Provider.of<Auth>(context, listen: false);
     final messages = Provider.of<LoginMessages>(context, listen: false);
     final deviceSize = MediaQuery
         .of(context)
