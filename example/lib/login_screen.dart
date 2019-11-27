@@ -19,6 +19,11 @@ class LoginScreen extends StatelessWidget {
       if (mockUsers[data.name] != data.password) {
         return 'Password does not match';
       }
+      // set to true for testing
+      bool mustChangePassword = true;
+      if (mustChangePassword) {
+        return 'must_change_password';
+      }
       return null;
     });
   }
@@ -51,6 +56,16 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String> _resendCode(LoginData data) {
+    return Future.delayed(loginTime).then((_) {
+      //if (!mockUsers.containsKey(data.name)) {
+      if (false) {
+        return 'Username not exists';
+      }
+      return null;
+    });
+  }
+
+  Future<String> _changePassword(String previousPassword, LoginData data) {
     return Future.delayed(loginTime).then((_) {
       //if (!mockUsers.containsKey(data.name)) {
       if (false) {
@@ -209,6 +224,10 @@ class LoginScreen extends StatelessWidget {
         print('Resend code info');
         print('Name: ${loginData.name}');
         return _resendCode(loginData);
+      },
+      onChangePassword: (previousPassword, loginData) {
+        print('Change password');
+        return _changePassword(previousPassword, loginData);
       },
       showDebugButtons: true,
     );

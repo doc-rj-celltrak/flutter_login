@@ -155,6 +155,7 @@ class FlutterLogin extends StatefulWidget {
     @required this.onConfirmRecover,
     @required this.onConfirmSignup,
     @required this.onResendCode,
+    @required this.onChangePassword,
     this.title = 'LOGIN',
     this.logo,
     this.messages,
@@ -184,6 +185,9 @@ class FlutterLogin extends StatefulWidget {
 
   /// Called when the user hit the resend code button in confirm signup mode
   final AuthCallback onResendCode;
+
+  /// Called when the user hit the submit button when changing password
+  final ChangePasswordCallback onChangePassword;
 
   /// The large text above the login [Card], usually the app or company name
   final String title;
@@ -522,6 +526,7 @@ class _FlutterLoginState extends State<FlutterLogin>
             onConfirmRecover: widget.onConfirmRecover,
             onConfirmSignup: widget.onConfirmSignup,
             onResendCode: widget.onResendCode,
+            onChangePassword: widget.onChangePassword,
             previous: prevAuth,
           ),
         ),

@@ -20,6 +20,7 @@ import '../matrix.dart';
 import '../paddings.dart';
 import '../widget_helper.dart';
 import 'confirm_recover_card.dart';
+import 'change_password_card.dart';
 
 class AuthCard extends StatefulWidget {
   AuthCard({
@@ -337,6 +338,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
       _buildCard(theme, 1),
       _buildCard(theme, 2),
       _buildCard(theme, 3),
+      _buildCard(theme, 4),
     ];
   }
 
@@ -352,6 +354,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
                 : (_formLoadingController..value = 1.0),
             emailValidator: widget.emailValidator,
             passwordValidator: widget.passwordValidator,
+            onSwitchChangePassword: () => _jumpToCard(theme, 4),
             onSwitchRecoveryPassword: () => _switchRecovery(0, true),
             onSwitchConfirmSignup: () => _jumpToCard(theme, 3),
             onSubmitCompleted: () {
@@ -373,11 +376,18 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
         return ConfirmRecoverCard(
           passwordValidator: widget.passwordValidator,
           onBack: () => _switchRecovery(2, false),
-          onSubmitCompleted: () => widget.onSubmitCompleted,
+          onSubmitCompleted: widget.onSubmitCompleted,
         );
 
       case 3:
         return ConfirmSignupCard(
+          onBack: () => _jumpToCard(theme, 0),
+          onSubmitCompleted: widget.onSubmitCompleted,
+        );
+
+      case 4:
+        return ChangePasswordCard(
+          passwordValidator: widget.passwordValidator,
           onBack: () => _jumpToCard(theme, 0),
           onSubmitCompleted: widget.onSubmitCompleted,
         );
@@ -431,6 +441,7 @@ class _LoginCard extends StatefulWidget {
     this.loadingController,
     @required this.emailValidator,
     @required this.passwordValidator,
+    @required this.onSwitchChangePassword,
     @required this.onSwitchRecoveryPassword,
     @required this.onSwitchConfirmSignup,
     this.onSwitchAuth,
@@ -440,6 +451,7 @@ class _LoginCard extends StatefulWidget {
   final AnimationController loadingController;
   final FormFieldValidator<String> emailValidator;
   final FormFieldValidator<String> passwordValidator;
+  final Function onSwitchChangePassword;
   final Function onSwitchRecoveryPassword;
   final Function onSwitchConfirmSignup;
   final Function onSwitchAuth;
@@ -582,6 +594,11 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     });
 
     _submitController.reverse();
+
+    if (auth.isLogin && error == 'must_change_password') {
+      widget?.onSwitchChangePassword();
+      return true;
+    }
 
     if (!DartHelper.isNullOrEmpty(error)) {
       showErrorToast(context, error);

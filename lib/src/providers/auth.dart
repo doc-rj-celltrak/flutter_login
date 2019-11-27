@@ -16,6 +16,9 @@ typedef ConfirmRecoverCallback = Future<String> Function(String code, LoginData)
 /// The result is an error message, callback successes if message is null
 typedef ConfirmSignupCallback = Future<String> Function(String code, LoginData);
 
+/// The result is an error message, callback successes if message is null
+typedef ChangePasswordCallback = Future<String> Function(String previousPassword, LoginData);
+
 class Auth with ChangeNotifier {
   Auth({
     this.onLogin,
@@ -24,6 +27,7 @@ class Auth with ChangeNotifier {
     this.onConfirmRecover,
     this.onConfirmSignup,
     this.onResendCode,
+    this.onChangePassword,
     Auth previous,
   }) {
     if (previous != null) {
@@ -40,6 +44,7 @@ class Auth with ChangeNotifier {
           onRecoverPassword: null,
           onConfirmSignup: null,
           onResendCode: null,
+          onChangePassword: null,
           previous: null,
         );
 
@@ -49,6 +54,7 @@ class Auth with ChangeNotifier {
   final ConfirmRecoverCallback onConfirmRecover;
   final ConfirmSignupCallback onConfirmSignup;
   final AuthCallback onResendCode;
+  final ChangePasswordCallback onChangePassword;
 
   var _authData = {'email': '', 'password': ''};
 

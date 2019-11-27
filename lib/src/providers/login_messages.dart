@@ -27,6 +27,10 @@ class LoginMessages with ChangeNotifier {
     this.resendCodeSuccess: defaultResendCodeSuccess,
     this.confirmSignupButton: defaultConfirmSignupButton,
     this.confirmSignupSuccess: defaultConfirmSignupSuccess,
+    this.changePasswordIntro: defaultChangePasswordIntro,
+    this.newPasswordHint: defaultNewPasswordHint,
+    this.confirmNewPasswordHint: defaultConfirmNewPasswordHint,
+    this.changePasswordSuccess: defaultChangePasswordSuccess,
   });
 
   static const defaultUsernameHint = 'Email';
@@ -59,6 +63,11 @@ class LoginMessages with ChangeNotifier {
   static const defaultResendCodeSuccess = 'A new email has been sent.';
   static const defaultConfirmSignupButton = 'CONFIRM';
   static const defaultConfirmSignupSuccess = 'Account confirmed.';
+  static const defaultChangePasswordIntro =
+      'Please change your password before continuing to the app.';
+  static const defaultNewPasswordHint = 'New Password';
+  static const defaultConfirmNewPasswordHint = 'Confirm New Password';
+  static const defaultChangePasswordSuccess = 'Password changed.';
 
   /// Hint text of the user name [TextField]
   final String usernameHint;
@@ -133,4 +142,16 @@ class LoginMessages with ChangeNotifier {
 
   /// The success message to show after confirming signup
   final String confirmSignupSuccess;
+
+  /// The intro text for the change password card
+  final String changePasswordIntro;
+
+  /// Hint text of new password [TextField]
+  final String newPasswordHint;
+
+  /// Hint text of confirm new password [TextField]
+  final String confirmNewPasswordHint;
+
+  /// The success message to show after changing password
+  final String changePasswordSuccess;
 }
