@@ -23,7 +23,7 @@ onResendCode | `AuthCallback` | <sub>Called when the user hits the resend code b
 onLogin |   `AuthCallback`     | <sub>Called when the user hit the submit button when in login mode</sub>
 onRecoverPassword |   `RecoverCallback`     | <sub>Called when the user hit the submit button when in recover password mode</sub>
 onConfirmRecover | `ConfirmRecoverCallback` | <sub>Called when the user submits confirmation code and sets password in recover password mode</sub>
-title |   `String`     | <sub>The large text above the login [Card], usually the app or company name, or empty string for no title</sub>
+title |   `String`     | <sub>The large text above the login [Card], usually the app or company name. Leave the string empty or null if you want no title.</sub>
 logo |   `String`     | <sub>The path to the asset image that will be passed to the `Image.asset()`</sub>
 messages |   [`LoginMessages`](#LoginMessages)     | <sub>Describes all of the labels, text hints, button texts and other auth descriptions</sub>
 theme |   [`LoginTheme`](#LoginTheme)     | <sub>FlutterLogin's theme. If not specified, it will use the default theme as shown in the demo gifs and use the colorsheme in the closest `Theme` widget</sub>
@@ -91,6 +91,9 @@ textFieldStyle | `TextStyle` | Text style for [TextField] input text
 buttonStyle | `TextStyle` | Text style for button text
 beforeHeroFontSize | `double` | Defines the font size of the title in the login screen (before the hero transition)
 afterHeroFontSize | `double` | Defines the font size of the title in the screen after the login screen (after the hero transition)
+pageColorLight | `Color` | The optional light background color of login screen; if provided, used for light gradient instead of primaryColor
+pageColorDark | `Color` | The optional dark background color of login screen; if provided, used for dark gradient instead of primaryColor
+
 
 ## Examples
 

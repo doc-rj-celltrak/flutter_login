@@ -97,7 +97,7 @@ class LoginScreen extends StatelessWidget {
       //   recoverPasswordButton: 'HELP ME',
       //   goBackButton: 'GO BACK',
       //   confirmPasswordError: 'Not match!',
-      //   recoverPasswordIntro: 'Don\'t feel bad. Happens all the time.'
+      //   recoverPasswordIntro: 'Don\'t feel bad. Happens all the time.',
       //   recoverPasswordDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       //   recoverPasswordSuccess: 'Password rescued successfully',
       // ),
@@ -105,6 +105,8 @@ class LoginScreen extends StatelessWidget {
       //   primaryColor: Colors.teal,
       //   accentColor: Colors.yellow,
       //   errorColor: Colors.deepOrange,
+      //   pageColorLight: Colors.indigo.shade300,
+      //   pageColorDark: Colors.indigo.shade500,
       //   titleStyle: TextStyle(
       //     color: Colors.greenAccent,
       //     fontFamily: 'Quicksand',

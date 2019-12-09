@@ -34,7 +34,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
   Animation<Color> _colorAnimation;
   var _isLoading = false;
   var _hover = false;
-  var _width = -1.0;
+  var _width = 120.0;
 
   Color _color;
   Color _loadingColor;
@@ -55,6 +55,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
     );
 
     // _colorAnimation
+    // _width, _sizeAnimation
 
     _buttonOpacityAnimation =
         Tween<double>(begin: 1.0, end: 0.0).animate(CurvedAnimation(
@@ -80,6 +81,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
   @override
   void didChangeDependencies() {
     _updateColorAnimation();
+    _updateWidth();
     super.didChangeDependencies();
   }
 
@@ -109,6 +111,10 @@ class _AnimatedButtonState extends State<AnimatedButton>
         oldWidget.loadingColor != widget.loadingColor) {
       _updateColorAnimation();
     }
+
+    if (oldWidget.text != widget.text) {
+      _updateWidth();
+    }
   }
 
   @override
@@ -126,8 +132,8 @@ class _AnimatedButtonState extends State<AnimatedButton>
     }
   }
 
-  // initializes width and size animation
-  void _initWidth(BuildContext context) {
+  /// sets width and size animation
+  void _updateWidth() {
     final theme = Theme.of(context);
     final fontSize = theme.textTheme.button.fontSize;
 
@@ -146,12 +152,14 @@ class _AnimatedButtonState extends State<AnimatedButton>
 
     renderParagraph.layout(BoxConstraints(minWidth: 120.0));
 
-    // text width based on fontSize, plus 24.0 for padding
-    var textWidth = renderParagraph.getMinIntrinsicWidth(fontSize).ceilToDouble() + 24.0;
+    // text width based on fontSize, plus 45.0 for padding
+    var textWidth =
+        renderParagraph.getMinIntrinsicWidth(fontSize).ceilToDouble() + 45.0;
 
     // button width is min 120.0 and max 240.0
-    _width = textWidth > 120.0 && textWidth < 240.0 ? textWidth :
-      textWidth >= 240.0 ? 240.0 : 120.0;
+    _width = textWidth > 120.0 && textWidth < 240.0
+        ? textWidth
+        : textWidth >= 240.0 ? 240.0 : 120.0;
 
     _sizeAnimation = Tween<double>(begin: 1.0, end: _height / _width)
         .animate(CurvedAnimation(
@@ -172,10 +180,6 @@ class _AnimatedButtonState extends State<AnimatedButton>
 
   Widget _buildButton(ThemeData theme) {
     final buttonTheme = theme.floatingActionButtonTheme;
-
-    if (_width < 0) {
-      _initWidth(context);
-    }
 
     return FadeTransition(
       opacity: _buttonOpacityAnimation,
