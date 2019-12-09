@@ -142,7 +142,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
     _routeTransitionController.dispose();
   }
 
-  void _switchRecovery(int fromIndex, bool forward) {
+  void _switchPage(bool forward) {
     final auth = Provider.of<Auth>(context, listen: false);
 
     if (forward) {
@@ -157,7 +157,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
       );
     }
 
-    _pageIndex = forward ? ++fromIndex : --fromIndex;
+    _pageIndex = forward ? ++_pageIndex : --_pageIndex;
     auth.isRecover = _pageIndex > 0;
   }
 
@@ -220,8 +220,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
   }
 
   void runChangePageAnimation() {
-    //final auth = Provider.of<Auth>(context, listen: false);
-    _switchRecovery(_pageIndex, _pageIndex < 2);
+    _switchPage(_pageIndex < 2);
   }
 
   Widget _buildLoadingAnimator({Widget child, ThemeData theme}) {
@@ -274,7 +273,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
     );
   }
 
-  /// jump to any card with animation; call this instead of _switchRecovery()
+  /// jump to any card with animation; call this instead of _switchPage()
   /// when you need to skip over cards; example: you can jump directly from
   /// index 0 to index 3 with smooth animation
   void _jumpToCard(ThemeData theme, int targetIndex) async {
@@ -355,7 +354,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
             emailValidator: widget.emailValidator,
             passwordValidator: widget.passwordValidator,
             onSwitchChangePassword: () => _jumpToCard(theme, 4),
-            onSwitchRecoveryPassword: () => _switchRecovery(0, true),
+            onSwitchRecoveryPassword: () => _switchPage(true),
             onSwitchConfirmSignup: () => _jumpToCard(theme, 3),
             onSubmitCompleted: () {
               _forwardChangeRouteAnimation().then((_) {
@@ -368,14 +367,14 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
       case 1:
         return _RecoverCard(
             emailValidator: widget.emailValidator,
-            onBack: () => _switchRecovery(1, false),
-            onSwitchRecoverCode: () => _switchRecovery(1, true),
+            onBack: () => _switchPage(false),
+            onSwitchRecoverCode: () => _switchPage(true),
         );
 
       case 2:
         return ConfirmRecoverCard(
           passwordValidator: widget.passwordValidator,
-          onBack: () => _switchRecovery(2, false),
+          onBack: () => _switchPage(false),
           onSubmitCompleted: widget.onSubmitCompleted,
         );
 
