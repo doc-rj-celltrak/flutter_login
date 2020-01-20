@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
 
+import '../constants.dart';
 import 'animated_button.dart';
 import 'animated_text.dart';
 import 'custom_page_transformer.dart';
@@ -102,8 +103,10 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
       parent: _routeTransitionController,
       curve: Interval(0, .27272727 /* ~300ms */, curve: Curves.easeInOutCirc),
     ));
+    // replace 0 with minPositive to pass the test
+    // https://github.com/flutter/flutter/issues/42527#issuecomment-575131275
     _cardOverlayHeightFactorAnimation =
-        Tween<double>(begin: 0, end: 1.0).animate(CurvedAnimation(
+        Tween<double>(begin: double.minPositive, end: 1.0).animate(CurvedAnimation(
       parent: _routeTransitionController,
       curve: Interval(.27272727, .5 /* ~250ms */, curve: Curves.linear),
     ));
@@ -465,9 +468,10 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
   final _passwordFocusNode = FocusNode();
   final _confirmPasswordFocusNode = FocusNode();
-  final _passwordController = TextEditingController();
 
   TextEditingController _nameController;
+  TextEditingController _passController;
+  TextEditingController _confirmPassController;
 
   var _isLoading = false;
   var _isSubmitting = false;
@@ -491,7 +495,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     super.initState();
 
     final auth = Provider.of<Auth>(context, listen: false);
-    _nameController = new TextEditingController(text: auth.email);
+    _nameController = TextEditingController(text: auth.email);
+    _passController = TextEditingController(text: auth.password);
+    _confirmPassController = TextEditingController(text: auth.confirmPassword);
 
     _loadingController = widget.loadingController ??
         (AnimationController(
@@ -635,14 +641,12 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   }
 
   Widget _buildPasswordField(double width, LoginMessages messages, Auth auth) {
-    final auth = Provider.of<Auth>(context);
-
     return AnimatedPasswordTextFormField(
       animatedWidth: width,
       loadingController: _loadingController,
       interval: _passTextFieldLoadingAnimationInterval,
       labelText: messages.passwordHint,
-      controller: _passwordController,
+      controller: _passController,
       textInputAction:
           auth.isLogin ? TextInputAction.done : TextInputAction.next,
       focusNode: _passwordFocusNode,
@@ -659,9 +663,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildConfirmPasswordField(double width, LoginMessages messages) {
-    final auth = Provider.of<Auth>(context);
-
+  Widget _buildConfirmPasswordField(double width, LoginMessages messages, Auth auth) {
     return AnimatedPasswordTextFormField(
       animatedWidth: width,
       enabled: auth.isSignup,
@@ -669,17 +671,19 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       inertiaController: _postSwitchAuthController,
       inertiaDirection: TextFieldInertiaDirection.right,
       labelText: messages.confirmPasswordHint,
+      controller: _confirmPassController,
       textInputAction: TextInputAction.done,
       focusNode: _confirmPasswordFocusNode,
       onFieldSubmitted: (value) => _submit(),
       validator: auth.isSignup
           ? (value) {
-              if (value != _passwordController.text) {
+              if (value != _passController.text) {
                 return messages.confirmPasswordError;
               }
               return null;
             }
           : (value) => null,
+      onSaved: (value) => auth.confirmPassword = value,
     );
   }
 
@@ -705,9 +709,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildSubmitButton(ThemeData theme, LoginMessages messages) {
-    final auth = Provider.of<Auth>(context);
-
+  Widget _buildSubmitButton(ThemeData theme, LoginMessages messages, Auth auth) {
     return ScaleTransition(
       scale: _buttonScaleAnimation,
       child: AnimatedButton(
@@ -718,9 +720,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildSwitchAuthButton(ThemeData theme, LoginMessages messages) {
-    final auth = Provider.of<Auth>(context, listen: false);
-
+  Widget _buildSwitchAuthButton(ThemeData theme, LoginMessages messages, Auth auth) {
     return FadeIn(
       controller: _loadingController,
       offset: .5,
@@ -785,7 +785,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
               vertical: 10,
             ),
             onExpandCompleted: () => _postSwitchAuthController.forward(),
-            child: _buildConfirmPasswordField(textFieldWidth, messages),
+            child: _buildConfirmPasswordField(textFieldWidth, messages, auth),
           ),
           Container(
             padding: Paddings.fromRBL(cardPadding),
@@ -793,8 +793,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             child: Column(
               children: <Widget>[
                 _buildForgotPassword(theme, messages),
-                _buildSubmitButton(theme, messages),
-                _buildSwitchAuthButton(theme, messages),
+                _buildSubmitButton(theme, messages, auth),
+                _buildSwitchAuthButton(theme, messages, auth),
               ],
             ),
           ),
@@ -922,7 +922,7 @@ class _RecoverCardState extends State<_RecoverCard>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final auth = Provider.of<Auth>(context, listen: true);
+    final auth = Provider.of<Auth>(context, listen: false);
     final messages = Provider.of<LoginMessages>(context, listen: false);
     final deviceSize = MediaQuery.of(context).size;
     final cardWidth = min(deviceSize.width * 0.75, 360.0);
@@ -947,6 +947,7 @@ class _RecoverCardState extends State<_RecoverCard>
               children: [
                 Text(
                   messages.recoverPasswordIntro,
+                  key: kRecoverPasswordIntroKey,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.body1,
                 ),
@@ -955,6 +956,7 @@ class _RecoverCardState extends State<_RecoverCard>
                 SizedBox(height: 20),
                 Text(
                   messages.recoverPasswordDescription,
+                  key: kRecoverPasswordDescriptionKey,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.body1,
                 ),

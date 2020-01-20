@@ -11,13 +11,15 @@ typedef AuthCallback = Future<String> Function(LoginData);
 typedef RecoverCallback = Future<String> Function(String);
 
 /// The result is an error message, callback successes if message is null
-typedef ConfirmRecoverCallback = Future<String> Function(String code, LoginData);
+typedef ConfirmRecoverCallback = Future<String> Function(
+    String code, LoginData);
 
 /// The result is an error message, callback successes if message is null
 typedef ConfirmSignupCallback = Future<String> Function(String code, LoginData);
 
 /// The result is an error message, callback successes if message is null
-typedef ChangePasswordCallback = Future<String> Function(String previousPassword, LoginData);
+typedef ChangePasswordCallback = Future<String> Function(
+    String previousPassword, LoginData);
 
 class Auth with ChangeNotifier {
   Auth({
@@ -28,25 +30,12 @@ class Auth with ChangeNotifier {
     this.onConfirmSignup,
     this.onResendCode,
     this.onChangePassword,
-    Auth previous,
-  }) {
-    if (previous != null) {
-      _mode = previous.mode;
-      _authData['email'] = previous.email;
-      _authData['password'] = previous.password;
-    }
-  }
-
-  Auth.empty()
-      : this(
-          onLogin: null,
-          onSignup: null,
-          onRecoverPassword: null,
-          onConfirmSignup: null,
-          onResendCode: null,
-          onChangePassword: null,
-          previous: null,
-        );
+    email = '',
+    password = '',
+    confirmPassword = '',
+  })  : this._email = email,
+        this._password = password,
+        this._confirmPassword = confirmPassword;
 
   final AuthCallback onLogin;
   final AuthCallback onSignup;
@@ -55,8 +44,6 @@ class Auth with ChangeNotifier {
   final ConfirmSignupCallback onConfirmSignup;
   final AuthCallback onResendCode;
   final ChangePasswordCallback onChangePassword;
-
-  var _authData = {'email': '', 'password': ''};
 
   AuthMode _mode = AuthMode.Login;
 
@@ -83,15 +70,24 @@ class Auth with ChangeNotifier {
     return mode;
   }
 
-  get email => _authData['email'];
+  String _email = '';
+  get email => _email;
   set email(String email) {
-    _authData['email'] = email;
+    _email = email;
     notifyListeners();
   }
 
-  get password => _authData['password'];
+  String _password = '';
+  get password => _password;
   set password(String password) {
-    _authData['password'] = password;
+    _password = password;
+    notifyListeners();
+  }
+
+  String _confirmPassword = '';
+  get confirmPassword => _confirmPassword;
+  set confirmPassword(String confirmPassword) {
+    _confirmPassword = confirmPassword;
     notifyListeners();
   }
 }
