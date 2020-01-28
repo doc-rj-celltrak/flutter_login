@@ -30,9 +30,9 @@ class Auth with ChangeNotifier {
     this.onConfirmSignup,
     this.onResendCode,
     this.onChangePassword,
-    email = '',
-    password = '',
-    confirmPassword = '',
+    String email = '',
+    String password = '',
+    String confirmPassword = '',
   })  : this._email = email,
         this._password = password,
         this._confirmPassword = confirmPassword;
